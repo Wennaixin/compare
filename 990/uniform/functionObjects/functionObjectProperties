@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2212                                  |
+|  \\    /   O peration     | Version:  2412                                  |
 |   \\  /    A nd           | Website:  www.openfoam.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -22,11 +22,11 @@ cdf7e925f5746741c316f5fbcf39ad0dfca90775
     {
         vector
         {
-            pressureForce   ( -11.32071 -2.040279 6.857442 );
-            viscousForce    ( 0.06048434 -0.05387188 0.08053957 );
+            pressureForce   ( -11.40177 -2.076418 6.881779 );
+            viscousForce    ( 0.002794952 -0.002288261 0.003046695 );
             internalForce   ( 0 0 0 );
-            pressureMoment  ( 1.030365 -5.451154 -0.002217337 );
-            viscousMoment   ( 0.01538288 -0.04665732 -0.04124263 );
+            pressureMoment  ( 1.037174 -5.478547 -0.01868471 );
+            viscousMoment   ( 0.0005177086 -0.001671514 -0.00163334 );
             internalMoment  ( 0 0 0 );
         }
     }
