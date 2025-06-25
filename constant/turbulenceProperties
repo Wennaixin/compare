@@ -9,7 +9,7 @@ FoamFile
 simulationType	RAS;
 RAS
 {
-	turbulence	true;
+	turbulence	false;
 	printCoeffs	true;
 	RASModel	realizableKE;
 	realizableKECoeffs
