@@ -3,8 +3,53 @@ run
 	parallel	false;
 	processors	8;
 }
-probes
+initialization
 {
+	potentialInit	false;
+	nNonOrthogonalCorrectors	8;
+	mapInit	false;
+	mapConsistent	false;
+}
+regionProperties
+{
+	default
+	{
+		bafflesSplit	false;
+		cellZones
+		{
+		}
+	}
+}
+meshing
+{
+	parallel	false;
+	processors	8;
+	meshingStages
+	{
+		Base	true;
+		Mesh	true;
+		Layers	true;
+	}
+}
+parameters
+{
+}
+inputs
+{
+	default
+	{
+		radiationProperties
+		{
+			solarLoarCoeffs
+			{
+				sunDirection	(0 0 -1);
+			}
+			solarLoadCoeffs
+			{
+				sunDirection	(0 0 -1);
+			}
+		}
+	}
 }
 primitiveMesh
 {
@@ -18,17 +63,12 @@ primitiveMesh
 		lockCellSize	false;
 		boundaries
 		{
-			y_minus
+			z_minus
 			{
-				name	right;
+				name	left;
 				type	patch;
 			}
-			x_plus
-			{
-				name	outlet;
-				type	patch;
-			}
-			y_plus
+			z_plus
 			{
 				name	boundaries;
 				type	patch;
@@ -38,14 +78,19 @@ primitiveMesh
 				name	inlet;
 				type	patch;
 			}
-			z_plus
+			y_minus
+			{
+				name	right;
+				type	patch;
+			}
+			y_plus
 			{
 				name	boundaries;
 				type	patch;
 			}
-			z_minus
+			x_plus
 			{
-				name	left;
+				name	outlet;
 				type	patch;
 			}
 		}
@@ -64,12 +109,12 @@ primitiveMesh
 		circumferentialDivision	10;
 		boundaries
 		{
-			inlet
+			outlet
 			{
 				name	boundaries;
 				type	patch;
 			}
-			outlet
+			inlet
 			{
 				name	boundaries;
 				type	patch;
@@ -94,7 +139,7 @@ primitiveMesh
 		lockCellSize	false;
 		boundaries
 		{
-			x_minus
+			x_plus
 			{
 				name	boundaries;
 				type	patch;
@@ -104,12 +149,12 @@ primitiveMesh
 				name	boundaries;
 				type	patch;
 			}
-			x_plus
+			y_minus
 			{
 				name	boundaries;
 				type	patch;
 			}
-			y_minus
+			x_minus
 			{
 				name	boundaries;
 				type	patch;
@@ -128,7 +173,7 @@ primitiveMesh
 		axialGrading	1;
 		boundaries
 		{
-			inlet
+			outlet
 			{
 				name	boundaries;
 				type	patch;
@@ -138,7 +183,7 @@ primitiveMesh
 				name	boundaries;
 				type	patch;
 			}
-			outlet
+			inlet
 			{
 				name	boundaries;
 				type	patch;
@@ -146,36 +191,307 @@ primitiveMesh
 		}
 	}
 }
-summary
+mesh
 {
 }
-initialization
+slices
 {
-	potentialInit	false;
-	nNonOrthogonalCorrectors	8;
-	mapInit	false;
-	mapConsistent	false;
 }
 regionInit
 {
 	patchInitializationMode	onInitialization;
 }
-meshing
+materials
 {
-	parallel	false;
-	processors	8;
-	meshingStages
+	regions
 	{
-		Base	true;
-		Mesh	true;
-		Layers	true;
 	}
 }
-parameters
+application
 {
+	mode	normal;
 }
-slices
+geometry
 {
+	refine
+	{
+		type	searchableCylinder;
+		point1	(-1e-03 0 0);
+		point2	(1.5009999 0 0);
+		axis	(1 0 0);
+		length	1.502;
+		radius	0.3;
+	}
+	propeller
+	{
+		scale	(1 1 1);
+		location	(0 0 0);
+		rotationAngle	0;
+		rotationAxis	(1 1 1);
+	}
+	external
+	{
+		type	searchableCylinder;
+		point1	(-1e-03 0 0);
+		point2	(1.5009999 0 0);
+		axis	(1 0 0);
+		length	1.502;
+		radius	1;
+	}
+}
+Graphics3D
+{
+	MeshParameters
+	{
+		default
+		{
+			external
+			{
+				color	(155 50 0);
+				transparency	0.0;
+				faceHide	false;
+				edgesHide	false;
+			}
+			inlet
+			{
+				color	(155 180 50);
+				transparency	0.0;
+				faceHide	false;
+				edgesHide	false;
+			}
+			left
+			{
+				color	(51 255 0);
+				transparency	0.0;
+				faceHide	false;
+				edgesHide	false;
+			}
+			outlet
+			{
+				color	(0 255 178);
+				transparency	0.0;
+				faceHide	false;
+				edgesHide	false;
+			}
+			propeller
+			{
+				color	(0 102 255);
+				transparency	0.0;
+				faceHide	false;
+				edgesHide	false;
+			}
+			right
+			{
+				color	(128 0 255);
+				transparency	0.0;
+				faceHide	false;
+				edgesHide	false;
+			}
+		}
+	}
+	CellZonesParameters
+	{
+		external
+		{
+			faceHide	false;
+			edgesHide	false;
+		}
+	}
+	ProbeParameters
+	{
+	}
+	View
+	{
+		SavedViews
+		{
+		}
+	}
+	PostprocessingParameters
+	{
+		ActiveTime	0;
+		ActiveField	Solid;
+	}
+	GeometryParameters
+	{
+		propeller
+		{
+			color	(112 128 144);
+			transparency	0.0;
+			hide	true;
+		}
+		external
+		{
+			color	(112 128 144);
+			transparency	0.5;
+			hide	true;
+		}
+		refine
+		{
+			color	(112 128 144);
+			transparency	0.0;
+			hide	false;
+		}
+	}
+	postprocessingPlots
+	{
+		residuals
+		{
+			properties
+			{
+				title	;
+				isXGridVisible	true;
+				isYGridVisible	true;
+				xLabel	Iteration [-];
+				yLabel	Residuum [-];
+			}
+			series
+			{
+				Ux
+				{
+					label	Ux;
+					color	(0 0 255);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				Uy
+				{
+					label	Uy;
+					color	(255 0 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				Uz
+				{
+					label	Uz;
+					color	(0 255 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				p
+				{
+					label	p;
+					color	(0 0 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				p_rgh
+				{
+					label	p_rgh;
+					color	(0 0 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				omega
+				{
+					label	omega;
+					color	(255 200 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				epsilon
+				{
+					label	epsilon;
+					color	(255 200 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				k
+				{
+					label	k;
+					color	(0 255 255);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+			}
+		}
+		force
+		{
+			properties
+			{
+				title	;
+				isXGridVisible	true;
+				isYGridVisible	true;
+				xLabel	Iteration [-];
+				yLabel	Force [N m?/kg];
+			}
+			series
+			{
+				Fx
+				{
+					label	Fx;
+					color	(255 0 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				Fy
+				{
+					label	Fy;
+					color	(84 255 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				Fz
+				{
+					label	Fz;
+					color	(0 169 255);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+			}
+		}
+		moment
+		{
+			properties
+			{
+				title	;
+				isXGridVisible	true;
+				isYGridVisible	true;
+				xLabel	Iteration [-];
+				yLabel	Moment [Nm m?/kg];
+			}
+			series
+			{
+				Mx
+				{
+					label	Mx;
+					color	(255 0 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				My
+				{
+					label	My;
+					color	(84 255 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				Mz
+				{
+					label	Mz;
+					color	(0 169 255);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+			}
+		}
+	}
+	SlicesParameters
+	{
+	}
 }
 fieldInputs
 {
@@ -346,171 +662,9 @@ fieldInputs
 		}
 	}
 }
-Graphics3D
+summary
 {
-	MeshParameters
-	{
-		default
-		{
-			external
-			{
-				color	(155 50 0);
-				transparency	0.0;
-				faceHide	false;
-				edgesHide	false;
-			}
-			inlet
-			{
-				color	(155 180 50);
-				transparency	0.0;
-				faceHide	false;
-				edgesHide	false;
-			}
-			left
-			{
-				color	(51 255 0);
-				transparency	0.0;
-				faceHide	false;
-				edgesHide	false;
-			}
-			outlet
-			{
-				color	(0 255 178);
-				transparency	0.0;
-				faceHide	false;
-				edgesHide	false;
-			}
-			propeller
-			{
-				color	(0 102 255);
-				transparency	0.0;
-				faceHide	false;
-				edgesHide	false;
-			}
-			right
-			{
-				color	(128 0 255);
-				transparency	0.0;
-				faceHide	false;
-				edgesHide	false;
-			}
-		}
-	}
-	CellZonesParameters
-	{
-		external
-		{
-			faceHide	false;
-			edgesHide	false;
-		}
-	}
-	ProbeParameters
-	{
-	}
-	View
-	{
-		SavedViews
-		{
-		}
-	}
-	PostprocessingParameters
-	{
-		ActiveTime	0;
-		ActiveField	Solid;
-	}
-	GeometryParameters
-	{
-		propeller
-		{
-			color	(112 128 144);
-			transparency	0.0;
-			hide	true;
-		}
-		external
-		{
-			color	(112 128 144);
-			transparency	0.5;
-			hide	true;
-		}
-		refine
-		{
-			color	(112 128 144);
-			transparency	0.0;
-			hide	false;
-		}
-	}
-	postprocessingPlots
-	{
-	}
-	SlicesParameters
-	{
-	}
 }
-materials
-{
-	regions
-	{
-	}
-}
-application
-{
-	mode	normal;
-}
-geometry
-{
-	external
-	{
-		type	searchableCylinder;
-		point1	(-1e-03 0 0);
-		point2	(1.5009999 0 0);
-		axis	(1 0 0);
-		length	1.502;
-		radius	1;
-	}
-	propeller
-	{
-		scale	(1 1 1);
-		location	(0 0 0);
-		rotationAngle	0;
-		rotationAxis	(1 1 1);
-	}
-	refine
-	{
-		type	searchableCylinder;
-		point1	(-1e-03 0 0);
-		point2	(1.5009999 0 0);
-		axis	(1 0 0);
-		length	1.502;
-		radius	0.3;
-	}
-}
-regionProperties
-{
-	default
-	{
-		bafflesSplit	false;
-		cellZones
-		{
-		}
-	}
-}
-inputs
-{
-	default
-	{
-		radiationProperties
-		{
-			solarLoarCoeffs
-			{
-				sunDirection	(0 0 -1);
-			}
-			solarLoadCoeffs
-			{
-				sunDirection	(0 0 -1);
-			}
-		}
-	}
-}
-mesh
+probes
 {
 }
