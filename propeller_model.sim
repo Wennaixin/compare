@@ -1,54 +1,37 @@
-Graphics3D
+run
 {
-	MeshParameters
+	parallel	false;
+	processors	8;
+}
+initialization
+{
+	potentialInit	false;
+	nNonOrthogonalCorrectors	8;
+	mapInit	false;
+	mapConsistent	false;
+}
+regionProperties
+{
+	default
 	{
-	}
-	CellZonesParameters
-	{
-	}
-	ProbeParameters
-	{
-	}
-	View
-	{
-		SavedViews
+		bafflesSplit	false;
+		cellZones
 		{
 		}
-	}
-	PostprocessingParameters
-	{
-		ActiveTime	0;
-		ActiveField	Solid;
-	}
-	GeometryParameters
-	{
-		propeller
-		{
-			color	(112 128 144);
-			transparency	0.0;
-			hide	false;
-		}
-		external
-		{
-			color	(112 128 144);
-			transparency	0.5;
-			hide	false;
-		}
-		refine
-		{
-			color	(112 128 144);
-			transparency	0.0;
-			hide	false;
-		}
-	}
-	postprocessingPlots
-	{
-	}
-	SlicesParameters
-	{
 	}
 }
-summary
+meshing
+{
+	parallel	false;
+	processors	8;
+	meshingStages
+	{
+		Base	true;
+		Mesh	true;
+		Layers	true;
+	}
+}
+parameters
 {
 }
 inputs
@@ -68,42 +51,6 @@ inputs
 		}
 	}
 }
-mesh
-{
-}
-parameters
-{
-}
-fieldInputs
-{
-	default
-	{
-	}
-}
-probes
-{
-}
-meshing
-{
-	parallel	false;
-	processors	8;
-	meshingStages
-	{
-		Base	true;
-		Mesh	true;
-		Layers	true;
-	}
-}
-regionProperties
-{
-	default
-	{
-		bafflesSplit	false;
-		cellZones
-		{
-		}
-	}
-}
 primitiveMesh
 {
 	type	box;
@@ -116,14 +63,19 @@ primitiveMesh
 		lockCellSize	false;
 		boundaries
 		{
-			x_minus
-			{
-				name	inlet;
-				type	patch;
-			}
 			z_minus
 			{
 				name	left;
+				type	patch;
+			}
+			z_plus
+			{
+				name	boundaries;
+				type	patch;
+			}
+			x_minus
+			{
+				name	inlet;
 				type	patch;
 			}
 			y_minus
@@ -139,11 +91,6 @@ primitiveMesh
 			x_plus
 			{
 				name	outlet;
-				type	patch;
-			}
-			z_plus
-			{
-				name	boundaries;
 				type	patch;
 			}
 		}
@@ -162,17 +109,17 @@ primitiveMesh
 		circumferentialDivision	10;
 		boundaries
 		{
-			cylinder
-			{
-				name	boundaries;
-				type	patch;
-			}
 			outlet
 			{
 				name	boundaries;
 				type	patch;
 			}
 			inlet
+			{
+				name	boundaries;
+				type	patch;
+			}
+			cylinder
 			{
 				name	boundaries;
 				type	patch;
@@ -192,22 +139,22 @@ primitiveMesh
 		lockCellSize	false;
 		boundaries
 		{
-			y_plus
-			{
-				name	boundaries;
-				type	patch;
-			}
 			x_plus
 			{
 				name	boundaries;
 				type	patch;
 			}
-			x_minus
+			y_plus
 			{
 				name	boundaries;
 				type	patch;
 			}
 			y_minus
+			{
+				name	boundaries;
+				type	patch;
+			}
+			x_minus
 			{
 				name	boundaries;
 				type	patch;
@@ -244,14 +191,25 @@ primitiveMesh
 		}
 	}
 }
+mesh
+{
+}
 slices
 {
+}
+regionInit
+{
+	patchInitializationMode	onInitialization;
 }
 materials
 {
 	regions
 	{
 	}
+}
+application
+{
+	mode	normal;
 }
 geometry
 {
@@ -281,7 +239,432 @@ geometry
 		radius	1;
 	}
 }
-application
+Graphics3D
 {
-	mode	normal;
+	MeshParameters
+	{
+		default
+		{
+			external
+			{
+				color	(155 50 0);
+				transparency	0.0;
+				faceHide	false;
+				edgesHide	false;
+			}
+			inlet
+			{
+				color	(155 180 50);
+				transparency	0.0;
+				faceHide	false;
+				edgesHide	false;
+			}
+			left
+			{
+				color	(51 255 0);
+				transparency	0.0;
+				faceHide	false;
+				edgesHide	false;
+			}
+			outlet
+			{
+				color	(0 255 178);
+				transparency	0.0;
+				faceHide	false;
+				edgesHide	false;
+			}
+			propeller
+			{
+				color	(0 102 255);
+				transparency	0.0;
+				faceHide	false;
+				edgesHide	false;
+			}
+			right
+			{
+				color	(128 0 255);
+				transparency	0.0;
+				faceHide	false;
+				edgesHide	false;
+			}
+		}
+	}
+	CellZonesParameters
+	{
+		external
+		{
+			faceHide	false;
+			edgesHide	false;
+		}
+	}
+	ProbeParameters
+	{
+	}
+	View
+	{
+		SavedViews
+		{
+		}
+	}
+	PostprocessingParameters
+	{
+		ActiveTime	0;
+		ActiveField	Solid;
+	}
+	GeometryParameters
+	{
+		propeller
+		{
+			color	(112 128 144);
+			transparency	0.0;
+			hide	true;
+		}
+		external
+		{
+			color	(112 128 144);
+			transparency	0.5;
+			hide	true;
+		}
+		refine
+		{
+			color	(112 128 144);
+			transparency	0.0;
+			hide	false;
+		}
+	}
+	postprocessingPlots
+	{
+		residuals
+		{
+			properties
+			{
+				title	;
+				isXGridVisible	true;
+				isYGridVisible	true;
+				xLabel	Iteration [-];
+				yLabel	Residuum [-];
+			}
+			series
+			{
+				Ux
+				{
+					label	Ux;
+					color	(0 0 255);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				Uy
+				{
+					label	Uy;
+					color	(255 0 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				Uz
+				{
+					label	Uz;
+					color	(0 255 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				p
+				{
+					label	p;
+					color	(0 0 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				p_rgh
+				{
+					label	p_rgh;
+					color	(0 0 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				omega
+				{
+					label	omega;
+					color	(255 200 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				epsilon
+				{
+					label	epsilon;
+					color	(255 200 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				k
+				{
+					label	k;
+					color	(0 255 255);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+			}
+		}
+		force
+		{
+			properties
+			{
+				title	;
+				isXGridVisible	true;
+				isYGridVisible	true;
+				xLabel	Iteration [-];
+				yLabel	Force [N m?/kg];
+			}
+			series
+			{
+				Fx
+				{
+					label	Fx;
+					color	(255 0 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				Fy
+				{
+					label	Fy;
+					color	(84 255 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				Fz
+				{
+					label	Fz;
+					color	(0 169 255);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+			}
+		}
+		moment
+		{
+			properties
+			{
+				title	;
+				isXGridVisible	true;
+				isYGridVisible	true;
+				xLabel	Iteration [-];
+				yLabel	Moment [Nm m?/kg];
+			}
+			series
+			{
+				Mx
+				{
+					label	Mx;
+					color	(255 0 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				My
+				{
+					label	My;
+					color	(84 255 0);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+				Mz
+				{
+					label	Mz;
+					color	(0 169 255);
+					isVisible	true;
+					thickness	1;
+					representation	Solid;
+				}
+			}
+		}
+	}
+	SlicesParameters
+	{
+	}
+}
+fieldInputs
+{
+	default
+	{
+		p
+		{
+			internalField	uniform 0;
+			boundaryField
+			{
+				outlet
+				{
+					type	zeroGradient;
+				}
+				left
+				{
+					type	cyclicAMI;
+				}
+				right
+				{
+					type	cyclicAMI;
+				}
+				inlet
+				{
+					type	totalPressure;
+					p0	"uniform 0";
+					gamma	0;
+				}
+				propeller
+				{
+					type	zeroGradient;
+				}
+				external
+				{
+					type	totalPressure;
+					p0	"uniform 0";
+					gamma	0;
+				}
+			}
+		}
+		U
+		{
+			internalField	uniform (0 0 0);
+			boundaryField
+			{
+				outlet
+				{
+					type	zeroGradient;
+				}
+				left
+				{
+					type	cyclicAMI;
+				}
+				right
+				{
+					type	cyclicAMI;
+				}
+				inlet
+				{
+					type	pressureInletOutletVelocity;
+				}
+				propeller
+				{
+					type	noSlip;
+				}
+				external
+				{
+					type	pressureInletOutletVelocity;
+				}
+			}
+		}
+		k
+		{
+			internalField	uniform 1e-02;
+			boundaryField
+			{
+				outlet
+				{
+					type	zeroGradient;
+				}
+				left
+				{
+					type	cyclicAMI;
+				}
+				right
+				{
+					type	cyclicAMI;
+				}
+				inlet
+				{
+					type	turbulentIntensityKineticEnergyInlet;
+					intensity	1e-02;
+				}
+				propeller
+				{
+					type	kqRWallFunction;
+				}
+				external
+				{
+					type	turbulentIntensityKineticEnergyInlet;
+					intensity	1e-02;
+				}
+			}
+		}
+		epsilon
+		{
+			internalField	uniform 1;
+			boundaryField
+			{
+				outlet
+				{
+					type	zeroGradient;
+				}
+				left
+				{
+					type	cyclicAMI;
+				}
+				right
+				{
+					type	cyclicAMI;
+				}
+				inlet
+				{
+					type	turbulentMixingLengthDissipationRateInlet;
+					mixingLength	1e-03;
+				}
+				propeller
+				{
+					type	epsilonWallFunction;
+				}
+				external
+				{
+					type	turbulentMixingLengthDissipationRateInlet;
+					mixingLength	1e-03;
+				}
+			}
+		}
+		nut
+		{
+			internalField	uniform 0.1;
+			boundaryField
+			{
+				outlet
+				{
+					type	calculated;
+				}
+				left
+				{
+					type	cyclicAMI;
+				}
+				right
+				{
+					type	cyclicAMI;
+				}
+				inlet
+				{
+					type	calculated;
+				}
+				propeller
+				{
+					type	nutUWallFunction;
+				}
+				external
+				{
+					type	calculated;
+				}
+			}
+		}
+	}
+}
+summary
+{
+}
+probes
+{
 }

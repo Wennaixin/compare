@@ -1,0 +1,154 @@
+FoamFile
+{
+	version	2.0;
+	format	binary;
+	class	dictionary;
+	location	"system";
+	object	changeDictionaryDict;
+}
+p
+{
+	boundaryField
+	{
+		outlet
+		{
+			type	zeroGradient;
+		}
+		left
+		{
+			type	cyclicAMI;
+		}
+		right
+		{
+			type	cyclicAMI;
+		}
+		inlet
+		{
+			type	totalPressure;
+			p0	uniform 0;
+			gamma	0;
+		}
+		propeller
+		{
+			type	zeroGradient;
+		}
+		external
+		{
+			type	totalPressure;
+			p0	uniform 0;
+			gamma	0;
+		}
+	}
+}
+U
+{
+	boundaryField
+	{
+		outlet
+		{
+			type	zeroGradient;
+		}
+		left
+		{
+			type	cyclicAMI;
+		}
+		right
+		{
+			type	cyclicAMI;
+		}
+		inlet
+		{
+			type	pressureInletOutletVelocity;
+		}
+		propeller
+		{
+			type	noSlip;
+		}
+		external
+		{
+			type	pressureInletOutletVelocity;
+		}
+	}
+}
+k
+{
+	boundaryField
+	{
+		outlet
+		{
+			type	zeroGradient;
+		}
+		left
+		{
+			type	cyclicAMI;
+		}
+		right
+		{
+			type	cyclicAMI;
+		}
+		inlet
+		{
+			type	turbulentIntensityKineticEnergyInlet;
+			intensity	0.01;
+		}
+		propeller
+		{
+			type	kqRWallFunction;
+		}
+		external
+		{
+			type	turbulentIntensityKineticEnergyInlet;
+			intensity	0.01;
+		}
+	}
+}
+epsilon
+{
+	boundaryField
+	{
+		outlet
+		{
+			type	zeroGradient;
+		}
+		left
+		{
+			type	cyclicAMI;
+		}
+		right
+		{
+			type	cyclicAMI;
+		}
+		inlet
+		{
+			type	turbulentMixingLengthDissipationRateInlet;
+			mixingLength	0.001;
+		}
+		propeller
+		{
+			type	epsilonWallFunction;
+		}
+		external
+		{
+			type	turbulentMixingLengthDissipationRateInlet;
+			mixingLength	0.001;
+		}
+	}
+}
+nut
+{
+	boundaryField
+	{
+		left
+		{
+			type	cyclicAMI;
+		}
+		right
+		{
+			type	cyclicAMI;
+		}
+		propeller
+		{
+			type	nutUWallFunction;
+		}
+	}
+}
