@@ -6,12 +6,3 @@ FoamFile
 	location	"constant";
 	object	MRFProperties;
 }
-external
-{
-	cellZone	external;
-	active	true;
-	origin	(0 0 0);
-	axis	(-1 0 0);
-	omega	constant 300;
-	nonRotatingPatches	(right inlet external outlet left);
-}

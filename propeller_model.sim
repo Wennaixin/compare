@@ -1,10 +1,35 @@
-run
+mesh
 {
-	parallel	false;
-	processors	8;
 }
-probes
+materials
 {
+	regions
+	{
+	}
+}
+slices
+{
+}
+inputs
+{
+	default
+	{
+		radiationProperties
+		{
+			solarLoarCoeffs
+			{
+				sunDirection	(0 0 -1);
+			}
+			solarLoadCoeffs
+			{
+				sunDirection	(0 0 -1);
+			}
+		}
+	}
+}
+application
+{
+	mode	normal;
 }
 primitiveMesh
 {
@@ -18,19 +43,9 @@ primitiveMesh
 		lockCellSize	false;
 		boundaries
 		{
-			y_minus
-			{
-				name	right;
-				type	patch;
-			}
 			x_plus
 			{
 				name	outlet;
-				type	patch;
-			}
-			y_plus
-			{
-				name	boundaries;
 				type	patch;
 			}
 			x_minus
@@ -43,9 +58,19 @@ primitiveMesh
 				name	boundaries;
 				type	patch;
 			}
+			y_plus
+			{
+				name	boundaries;
+				type	patch;
+			}
 			z_minus
 			{
 				name	left;
+				type	patch;
+			}
+			y_minus
+			{
+				name	right;
 				type	patch;
 			}
 		}
@@ -64,12 +89,12 @@ primitiveMesh
 		circumferentialDivision	10;
 		boundaries
 		{
-			inlet
+			outlet
 			{
 				name	boundaries;
 				type	patch;
 			}
-			outlet
+			inlet
 			{
 				name	boundaries;
 				type	patch;
@@ -99,17 +124,17 @@ primitiveMesh
 				name	boundaries;
 				type	patch;
 			}
-			y_plus
-			{
-				name	boundaries;
-				type	patch;
-			}
 			x_plus
 			{
 				name	boundaries;
 				type	patch;
 			}
 			y_minus
+			{
+				name	boundaries;
+				type	patch;
+			}
+			y_plus
 			{
 				name	boundaries;
 				type	patch;
@@ -128,7 +153,7 @@ primitiveMesh
 		axialGrading	1;
 		boundaries
 		{
-			inlet
+			outlet
 			{
 				name	boundaries;
 				type	patch;
@@ -138,210 +163,10 @@ primitiveMesh
 				name	boundaries;
 				type	patch;
 			}
-			outlet
+			inlet
 			{
 				name	boundaries;
 				type	patch;
-			}
-		}
-	}
-}
-summary
-{
-}
-initialization
-{
-	potentialInit	false;
-	nNonOrthogonalCorrectors	8;
-	mapInit	false;
-	mapConsistent	false;
-}
-regionInit
-{
-	patchInitializationMode	onInitialization;
-}
-meshing
-{
-	parallel	false;
-	processors	8;
-	meshingStages
-	{
-		Base	true;
-		Mesh	true;
-		Layers	true;
-	}
-}
-parameters
-{
-}
-slices
-{
-}
-fieldInputs
-{
-	default
-	{
-		p
-		{
-			internalField	uniform 0;
-			boundaryField
-			{
-				outlet
-				{
-					type	zeroGradient;
-				}
-				left
-				{
-					type	cyclicAMI;
-				}
-				right
-				{
-					type	cyclicAMI;
-				}
-				inlet
-				{
-					type	totalPressure;
-					p0	"uniform 0";
-					gamma	0;
-				}
-				propeller
-				{
-					type	zeroGradient;
-				}
-				external
-				{
-					type	totalPressure;
-					p0	"uniform 0";
-					gamma	0;
-				}
-			}
-		}
-		U
-		{
-			internalField	uniform (0 0 0);
-			boundaryField
-			{
-				outlet
-				{
-					type	zeroGradient;
-				}
-				left
-				{
-					type	cyclicAMI;
-				}
-				right
-				{
-					type	cyclicAMI;
-				}
-				inlet
-				{
-					type	pressureInletOutletVelocity;
-				}
-				propeller
-				{
-					type	noSlip;
-				}
-				external
-				{
-					type	pressureInletOutletVelocity;
-				}
-			}
-		}
-		k
-		{
-			internalField	uniform 1e-02;
-			boundaryField
-			{
-				outlet
-				{
-					type	zeroGradient;
-				}
-				left
-				{
-					type	cyclicAMI;
-				}
-				right
-				{
-					type	cyclicAMI;
-				}
-				inlet
-				{
-					type	turbulentIntensityKineticEnergyInlet;
-					intensity	1e-02;
-				}
-				propeller
-				{
-					type	kqRWallFunction;
-				}
-				external
-				{
-					type	turbulentIntensityKineticEnergyInlet;
-					intensity	1e-02;
-				}
-			}
-		}
-		epsilon
-		{
-			internalField	uniform 1;
-			boundaryField
-			{
-				outlet
-				{
-					type	zeroGradient;
-				}
-				left
-				{
-					type	cyclicAMI;
-				}
-				right
-				{
-					type	cyclicAMI;
-				}
-				inlet
-				{
-					type	turbulentMixingLengthDissipationRateInlet;
-					mixingLength	1e-03;
-				}
-				propeller
-				{
-					type	epsilonWallFunction;
-				}
-				external
-				{
-					type	turbulentMixingLengthDissipationRateInlet;
-					mixingLength	1e-03;
-				}
-			}
-		}
-		nut
-		{
-			internalField	uniform 0.1;
-			boundaryField
-			{
-				outlet
-				{
-					type	calculated;
-				}
-				left
-				{
-					type	cyclicAMI;
-				}
-				right
-				{
-					type	cyclicAMI;
-				}
-				inlet
-				{
-					type	calculated;
-				}
-				propeller
-				{
-					type	nutUWallFunction;
-				}
-				external
-				{
-					type	calculated;
-				}
 			}
 		}
 	}
@@ -446,18 +271,210 @@ Graphics3D
 	{
 	}
 }
-materials
+probes
 {
-	regions
+}
+fieldInputs
+{
+	default
 	{
+		p
+		{
+			internalField	uniform 0;
+			boundaryField
+			{
+				outlet
+				{
+					type	fixedValue;
+					value	"uniform 0";
+				}
+				left
+				{
+					type	cyclicAMI;
+				}
+				right
+				{
+					type	cyclicAMI;
+				}
+				inlet
+				{
+					type	totalPressure;
+					p0	"uniform 0";
+					gamma	0;
+				}
+				propeller
+				{
+					type	zeroGradient;
+				}
+				external
+				{
+					type	totalPressure;
+					p0	"uniform 0";
+					gamma	0;
+				}
+			}
+		}
+		U
+		{
+			internalField	uniform (0 0 0);
+			boundaryField
+			{
+				outlet
+				{
+					type	pressureInletOutletVelocity;
+				}
+				left
+				{
+					type	cyclicAMI;
+				}
+				right
+				{
+					type	cyclicAMI;
+				}
+				inlet
+				{
+					type	pressureInletOutletVelocity;
+				}
+				propeller
+				{
+					type	noSlip;
+				}
+				external
+				{
+					type	pressureInletOutletVelocity;
+				}
+			}
+		}
+		k
+		{
+			internalField	uniform 1e-02;
+			boundaryField
+			{
+				outlet
+				{
+					type	zeroGradient;
+				}
+				left
+				{
+					type	cyclicAMI;
+				}
+				right
+				{
+					type	cyclicAMI;
+				}
+				inlet
+				{
+					type	turbulentIntensityKineticEnergyInlet;
+					intensity	0.05;
+				}
+				propeller
+				{
+					type	kqRWallFunction;
+				}
+				external
+				{
+					type	turbulentIntensityKineticEnergyInlet;
+					intensity	0.05;
+				}
+			}
+		}
+		epsilon
+		{
+			internalField	uniform 1;
+			boundaryField
+			{
+				outlet
+				{
+					type	zeroGradient;
+				}
+				left
+				{
+					type	cyclicAMI;
+				}
+				right
+				{
+					type	cyclicAMI;
+				}
+				inlet
+				{
+					type	turbulentMixingLengthDissipationRateInlet;
+					mixingLength	1e-03;
+				}
+				propeller
+				{
+					type	epsilonWallFunction;
+				}
+				external
+				{
+					type	turbulentMixingLengthDissipationRateInlet;
+					mixingLength	1e-03;
+				}
+			}
+		}
+		nut
+		{
+			internalField	uniform 0.1;
+			boundaryField
+			{
+				outlet
+				{
+					type	calculated;
+				}
+				left
+				{
+					type	cyclicAMI;
+				}
+				right
+				{
+					type	cyclicAMI;
+				}
+				inlet
+				{
+					type	calculated;
+				}
+				propeller
+				{
+					type	nutUWallFunction;
+				}
+				external
+				{
+					type	calculated;
+				}
+			}
+		}
 	}
 }
-application
+summary
 {
-	mode	normal;
+}
+regionInit
+{
+	patchInitializationMode	onInitialization;
+}
+initialization
+{
+	potentialInit	false;
+	nNonOrthogonalCorrectors	8;
+	mapInit	false;
+	mapConsistent	false;
+}
+run
+{
+	parallel	false;
+	processors	8;
+}
+parameters
+{
 }
 geometry
 {
+	propeller
+	{
+		scale	(1 1 1);
+		location	(0 0 0);
+		rotationAngle	0;
+		rotationAxis	(1 1 1);
+	}
 	external
 	{
 		type	searchableCylinder;
@@ -466,13 +483,6 @@ geometry
 		axis	(1 0 0);
 		length	1.502;
 		radius	1;
-	}
-	propeller
-	{
-		scale	(1 1 1);
-		location	(0 0 0);
-		rotationAngle	0;
-		rotationAxis	(1 1 1);
 	}
 	refine
 	{
@@ -484,6 +494,17 @@ geometry
 		radius	0.3;
 	}
 }
+meshing
+{
+	parallel	false;
+	processors	8;
+	meshingStages
+	{
+		Base	true;
+		Mesh	true;
+		Layers	true;
+	}
+}
 regionProperties
 {
 	default
@@ -493,24 +514,4 @@ regionProperties
 		{
 		}
 	}
-}
-inputs
-{
-	default
-	{
-		radiationProperties
-		{
-			solarLoarCoeffs
-			{
-				sunDirection	(0 0 -1);
-			}
-			solarLoadCoeffs
-			{
-				sunDirection	(0 0 -1);
-			}
-		}
-	}
-}
-mesh
-{
 }
