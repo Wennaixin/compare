@@ -21,13 +21,6 @@ blocks	(
 );
 edges	();
 boundary	(
-	outlet
-	{
-		type	patch;
-		faces	(
-			(2 6 5 1)
-		);
-	}
 	inlet
 	{
 		type	patch;
@@ -43,18 +36,25 @@ boundary	(
 			(3 7 6 2)
 		);
 	}
-	left
-	{
-		type	patch;
-		faces	(
-			(0 3 2 1)
-		);
-	}
 	right
 	{
 		type	patch;
 		faces	(
 			(1 5 4 0)
+		);
+	}
+	outlet
+	{
+		type	patch;
+		faces	(
+			(2 6 5 1)
+		);
+	}
+	left
+	{
+		type	patch;
+		faces	(
+			(0 3 2 1)
 		);
 	}
 );
