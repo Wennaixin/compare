@@ -1,255 +1,7 @@
-probes
-{
-}
-regionInit
-{
-	patchInitializationMode	onInitialization;
-}
-summary
-{
-}
-geometry
-{
-	propeller
-	{
-		scale	(1 1 1);
-		location	(0 0 0);
-		rotationAngle	0;
-		rotationAxis	(1 1 1);
-	}
-	refine
-	{
-		type	searchableCylinder;
-		point1	(-1e-03 0 0);
-		point2	(1.5009999 0 0);
-		axis	(1 0 0);
-		length	1.502;
-		radius	0.3;
-	}
-	external
-	{
-		type	searchableCylinder;
-		point1	(-1e-03 0 0);
-		point2	(1.5009999 0 0);
-		axis	(1 0 0);
-		length	1.502;
-		radius	1;
-	}
-}
-initialization
-{
-	potentialInit	false;
-	nNonOrthogonalCorrectors	8;
-	mapInit	false;
-	mapConsistent	false;
-}
-primitiveMesh
-{
-	type	box;
-	box
-	{
-		min	(0 0 0);
-		max	(1.5 1 1);
-		division	(30 20 20);
-		grading	(1 1 1);
-		lockCellSize	false;
-		boundaries
-		{
-			x_minus
-			{
-				name	inlet;
-				type	patch;
-			}
-			z_plus
-			{
-				name	boundaries;
-				type	patch;
-			}
-			y_minus
-			{
-				name	right;
-				type	patch;
-			}
-			x_plus
-			{
-				name	outlet;
-				type	patch;
-			}
-			y_plus
-			{
-				name	boundaries;
-				type	patch;
-			}
-			z_minus
-			{
-				name	left;
-				type	patch;
-			}
-		}
-	}
-	cylinder
-	{
-		axis	X;
-		origin	0;
-		radius	1;
-		length	1;
-		radialFraction	0.5;
-		radialDivision	10;
-		radialGrading	1;
-		axialDivision	10;
-		axialGrading	1;
-		circumferentialDivision	10;
-		boundaries
-		{
-			outlet
-			{
-				name	boundaries;
-				type	patch;
-			}
-			inlet
-			{
-				name	boundaries;
-				type	patch;
-			}
-			cylinder
-			{
-				name	boundaries;
-				type	patch;
-			}
-		}
-	}
-	plate
-	{
-		minx	-0.5;
-		miny	-0.5;
-		maxx	0.5;
-		maxy	0.5;
-		divisionx	10;
-		divisiony	10;
-		gradingx	1;
-		gradingy	1;
-		lockCellSize	false;
-		boundaries
-		{
-			y_plus
-			{
-				name	boundaries;
-				type	patch;
-			}
-			y_minus
-			{
-				name	boundaries;
-				type	patch;
-			}
-			x_plus
-			{
-				name	boundaries;
-				type	patch;
-			}
-			x_minus
-			{
-				name	boundaries;
-				type	patch;
-			}
-		}
-	}
-	wedge
-	{
-		lockCellSize	false;
-		origin	0;
-		radius	1;
-		length	1;
-		radialDivision	10;
-		radialGrading	1;
-		axialDivision	10;
-		axialGrading	1;
-		boundaries
-		{
-			inlet
-			{
-				name	boundaries;
-				type	patch;
-			}
-			cylinder
-			{
-				name	boundaries;
-				type	patch;
-			}
-			outlet
-			{
-				name	boundaries;
-				type	patch;
-			}
-		}
-	}
-}
-parameters
-{
-}
-application
-{
-	mode	normal;
-}
-run
-{
-	parallel	false;
-	processors	8;
-}
-slices
-{
-}
-mesh
-{
-}
 Graphics3D
 {
 	MeshParameters
 	{
-		default
-		{
-			external
-			{
-				color	(155 50 0);
-				transparency	0.0;
-				faceHide	false;
-				edgesHide	false;
-			}
-			inlet
-			{
-				color	(155 180 50);
-				transparency	0.0;
-				faceHide	false;
-				edgesHide	false;
-			}
-			left
-			{
-				color	(51 255 0);
-				transparency	0.0;
-				faceHide	false;
-				edgesHide	false;
-			}
-			outlet
-			{
-				color	(0 255 178);
-				transparency	0.0;
-				faceHide	false;
-				edgesHide	false;
-			}
-			propeller
-			{
-				color	(0 102 255);
-				transparency	0.0;
-				faceHide	false;
-				edgesHide	false;
-			}
-			right
-			{
-				color	(128 0 255);
-				transparency	0.0;
-				faceHide	false;
-				edgesHide	false;
-			}
-		}
 	}
 	CellZonesParameters
 	{
@@ -274,13 +26,13 @@ Graphics3D
 		{
 			color	(112 128 144);
 			transparency	0.0;
-			hide	true;
+			hide	false;
 		}
 		external
 		{
 			color	(112 128 144);
 			transparency	0.5;
-			hide	true;
+			hide	false;
 		}
 		refine
 		{
@@ -296,202 +48,8 @@ Graphics3D
 	{
 	}
 }
-meshing
+summary
 {
-	parallel	false;
-	processors	8;
-	meshingStages
-	{
-		Base	true;
-		Mesh	true;
-		Layers	true;
-	}
-}
-fieldInputs
-{
-	default
-	{
-		p
-		{
-			internalField	uniform 0;
-			boundaryField
-			{
-				outlet
-				{
-					type	fixedValue;
-					value	"uniform 0";
-				}
-				left
-				{
-					type	cyclicAMI;
-				}
-				right
-				{
-					type	cyclicAMI;
-				}
-				inlet
-				{
-					type	totalPressure;
-					p0	"uniform 0";
-					gamma	0;
-				}
-				propeller
-				{
-					type	zeroGradient;
-				}
-				external
-				{
-					type	totalPressure;
-					p0	"uniform 0";
-					gamma	0;
-				}
-			}
-		}
-		U
-		{
-			internalField	uniform (0 0 0);
-			boundaryField
-			{
-				outlet
-				{
-					type	pressureInletOutletVelocity;
-				}
-				left
-				{
-					type	cyclicAMI;
-				}
-				right
-				{
-					type	cyclicAMI;
-				}
-				inlet
-				{
-					type	pressureInletOutletVelocity;
-				}
-				propeller
-				{
-					type	noSlip;
-				}
-				external
-				{
-					type	pressureInletOutletVelocity;
-				}
-			}
-		}
-		k
-		{
-			internalField	uniform 1e-02;
-			boundaryField
-			{
-				outlet
-				{
-					type	zeroGradient;
-				}
-				left
-				{
-					type	cyclicAMI;
-				}
-				right
-				{
-					type	cyclicAMI;
-				}
-				inlet
-				{
-					type	turbulentIntensityKineticEnergyInlet;
-					intensity	0.05;
-				}
-				propeller
-				{
-					type	kqRWallFunction;
-				}
-				external
-				{
-					type	turbulentIntensityKineticEnergyInlet;
-					intensity	0.05;
-				}
-			}
-		}
-		epsilon
-		{
-			internalField	uniform 1;
-			boundaryField
-			{
-				outlet
-				{
-					type	zeroGradient;
-				}
-				left
-				{
-					type	cyclicAMI;
-				}
-				right
-				{
-					type	cyclicAMI;
-				}
-				inlet
-				{
-					type	turbulentMixingLengthDissipationRateInlet;
-					mixingLength	1e-03;
-				}
-				propeller
-				{
-					type	epsilonWallFunction;
-				}
-				external
-				{
-					type	turbulentMixingLengthDissipationRateInlet;
-					mixingLength	1e-03;
-				}
-			}
-		}
-		nut
-		{
-			internalField	uniform 0.1;
-			boundaryField
-			{
-				outlet
-				{
-					type	calculated;
-				}
-				left
-				{
-					type	cyclicAMI;
-				}
-				right
-				{
-					type	cyclicAMI;
-				}
-				inlet
-				{
-					type	calculated;
-				}
-				propeller
-				{
-					type	nutUWallFunction;
-				}
-				external
-				{
-					type	calculated;
-				}
-			}
-		}
-	}
-}
-materials
-{
-	regions
-	{
-	}
-}
-regionProperties
-{
-	default
-	{
-		bafflesSplit	false;
-		cellZones
-		{
-		}
-	}
 }
 inputs
 {
@@ -509,4 +67,221 @@ inputs
 			}
 		}
 	}
+}
+mesh
+{
+}
+parameters
+{
+}
+fieldInputs
+{
+	default
+	{
+	}
+}
+probes
+{
+}
+meshing
+{
+	parallel	false;
+	processors	8;
+	meshingStages
+	{
+		Base	true;
+		Mesh	true;
+		Layers	true;
+	}
+}
+regionProperties
+{
+	default
+	{
+		bafflesSplit	false;
+		cellZones
+		{
+		}
+	}
+}
+primitiveMesh
+{
+	type	box;
+	box
+	{
+		min	(0 0 0);
+		max	(1.5 1 1);
+		division	(30 20 20);
+		grading	(1 1 1);
+		lockCellSize	false;
+		boundaries
+		{
+			x_minus
+			{
+				name	inlet;
+				type	patch;
+			}
+			z_minus
+			{
+				name	left;
+				type	patch;
+			}
+			y_minus
+			{
+				name	right;
+				type	patch;
+			}
+			y_plus
+			{
+				name	boundaries;
+				type	patch;
+			}
+			x_plus
+			{
+				name	outlet;
+				type	patch;
+			}
+			z_plus
+			{
+				name	boundaries;
+				type	patch;
+			}
+		}
+	}
+	cylinder
+	{
+		axis	X;
+		origin	0;
+		radius	1;
+		length	1;
+		radialFraction	0.5;
+		radialDivision	10;
+		radialGrading	1;
+		axialDivision	10;
+		axialGrading	1;
+		circumferentialDivision	10;
+		boundaries
+		{
+			cylinder
+			{
+				name	boundaries;
+				type	patch;
+			}
+			outlet
+			{
+				name	boundaries;
+				type	patch;
+			}
+			inlet
+			{
+				name	boundaries;
+				type	patch;
+			}
+		}
+	}
+	plate
+	{
+		minx	-0.5;
+		miny	-0.5;
+		maxx	0.5;
+		maxy	0.5;
+		divisionx	10;
+		divisiony	10;
+		gradingx	1;
+		gradingy	1;
+		lockCellSize	false;
+		boundaries
+		{
+			y_plus
+			{
+				name	boundaries;
+				type	patch;
+			}
+			x_plus
+			{
+				name	boundaries;
+				type	patch;
+			}
+			x_minus
+			{
+				name	boundaries;
+				type	patch;
+			}
+			y_minus
+			{
+				name	boundaries;
+				type	patch;
+			}
+		}
+	}
+	wedge
+	{
+		lockCellSize	false;
+		origin	0;
+		radius	1;
+		length	1;
+		radialDivision	10;
+		radialGrading	1;
+		axialDivision	10;
+		axialGrading	1;
+		boundaries
+		{
+			outlet
+			{
+				name	boundaries;
+				type	patch;
+			}
+			cylinder
+			{
+				name	boundaries;
+				type	patch;
+			}
+			inlet
+			{
+				name	boundaries;
+				type	patch;
+			}
+		}
+	}
+}
+slices
+{
+}
+materials
+{
+	regions
+	{
+	}
+}
+geometry
+{
+	refine
+	{
+		type	searchableCylinder;
+		point1	(-1e-03 0 0);
+		point2	(1.5009999 0 0);
+		axis	(1 0 0);
+		length	1.502;
+		radius	0.3;
+	}
+	propeller
+	{
+		scale	(1 1 1);
+		location	(0 0 0);
+		rotationAngle	0;
+		rotationAxis	(1 1 1);
+	}
+	external
+	{
+		type	searchableCylinder;
+		point1	(-1e-03 0 0);
+		point2	(1.5009999 0 0);
+		axis	(1 0 0);
+		length	1.502;
+		radius	1;
+	}
+}
+application
+{
+	mode	normal;
 }
